@@ -1,0 +1,45 @@
+{
+  "name": "vscode-hackatime-fraud",
+  "displayName": "Hackatime Fraud Tracker",
+  "description": "Send detailed Hackatime heartbeats (cursor, line adds/dels, etc.) for anti-fraud tracking.",
+  "version": "0.0.1",
+  "publisher": "Iamalive",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Hackatime Fraud Tracker",
+      "properties": {
+        "hackatime.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Hackatime API key (from Hackatime Settings)."
+        },
+        "hackatime.baseUrl": {
+          "type": "string",
+          "default": "https://hackatime.hackclub.com",
+          "description": "Hackatime base URL (normally don't change this)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "echo \"no lint configured\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.26",
+    "@types/vscode": "^1.106.1",
+    "typescript": "^5.9.3"
+  }
+}
