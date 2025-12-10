@@ -1,0 +1,65 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\thisi\\OneDrive\\Desktop\\Projects\\visualstudio-wakatime\\Dev17\\Dev17.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\thisi\\OneDrive\\Desktop\\Projects\\visualstudio-wakatime\\Dev17\\Dev17.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\thisi\\OneDrive\\Desktop\\Projects\\visualstudio-wakatime\\Dev17\\Dev17.csproj",
+        "projectName": "WakaTime.Dev17",
+        "projectPath": "C:\\Users\\thisi\\OneDrive\\Desktop\\Projects\\visualstudio-wakatime\\Dev17\\Dev17.csproj",
+        "packagesPath": "C:\\Users\\thisi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thisi\\OneDrive\\Desktop\\Projects\\visualstudio-wakatime\\Dev17\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "UsingMicrosoftNETSdk": false,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\thisi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "all"
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "dependencies": {
+            "Microsoft.VSSDK.BuildTools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[17.0.5234, )"
+            },
+            "Microsoft.VisualStudio.SDK": {
+              "include": "Compile, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[17.0.32112.339, )"
+            },
+            "WakaTime.Shared.ExtensionUtils": {
+              "target": "Package",
+              "version": "[4.2.2, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}
