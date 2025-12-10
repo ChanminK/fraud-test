@@ -1,1 +1,50 @@
+# Visual Studio / .NET
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+[Bb]in/
+[Oo]bj/
+[Tt]emp/
+[Tt]mp/
 *.log
+*.cache
+*.ilk
+*.pdb
+*.pch
+*.obj
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Logs & runtime output
+
+# Logs: keeping folder ignore contents
+Logs/
+!Logs/.gitignore
+
+# Output: keep folder structure, ignore runtime heartbeats
+Data/output/
+!Data/output/.gitkeep
+
+# Take out if needed, currently used to ignore any big raw capture dumps
+Data/raw/
+!Data/raw/.gitkeep
+
+# OS files
+
+.DS_Store
+Thumbs.db
+desktop.ini
