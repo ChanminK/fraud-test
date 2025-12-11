@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Parse Visual Studio / WakaTime heartbeat logs into a normalized list.
 
@@ -55,7 +54,7 @@ def parse_time(value: str) -> datetime:
             return datetime.strptime(v, fmt)
         except ValueError:
             continue
-    # As a last resort, just return something; comparison may be less accurate.
+    # Last resort, just return anything - comparison may be less accurate....
     return datetime.fromisoformat(v.replace("Z", "+00:00"))
 
 

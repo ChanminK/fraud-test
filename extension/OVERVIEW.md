@@ -1,21 +1,31 @@
-# WakaTime for Visual Studio
+# FRAUD-TEST
 
-WakaTime is an open source VS Code plugin for metrics, insights, and time tracking automatically generated from your programming activity.
+This repo is a test harness around Visual Studio activity tracking (via the
+WakaTime-based extension) and a separate hardware/device logger. The goal is
+to make it easy to compare:
 
-Metrics, insights, and time tracking automatically generated from your programming activity.
+- What the **device** thinks happened, and  
+- What **Visual Studio** / the extension think happened,
 
-Source code: [https://github.com/wakatime/visualstudio-wakatime](https://github.com/wakatime/visualstudio-wakatime)
+using a single shared, line-by-line comparable heartbeats file.
 
-Please submit issues and bugs on GitHub: [https://github.com/wakatime/visualstudio-wakatime/issues](https://github.com/wakatime/visualstudio-wakatime/issues)
+---
 
-Homepage: [https://wakatime.com/](https://wakatime.com/)
+## Directory layout
 
-![Project Overview](https://wakatime.com/static/img/ScreenShots/Screen-Shot-2016-03-21.png)
-
-**Visual Studio 2010 (Legacy):**
-
-For Visual Studio 2010, use the [WakaTime 2010 Legacy extension](https://marketplace.visualstudio.com/items?itemName=WakaTime.WakaTime2010).
-
-**Visual Studio Express:**
-
-Microsoft [does not allow](https://visualstudiomagazine.com/articles/2014/05/21/no-extensions-for-visual-studio-express.aspx) extensions for **Visual Studio Express** edition in the gallery. To use WakaTime for Visual Studio Express, clone the [github repo](https://github.com/wakatime/visualstudio-wakatime) and build the extension using the "Express" build profile.
+```text
+FRAUD-TEST/
+├─ .gitignore
+├─ OVERVIEW.md              <- this file
+├─ Logger.cs                <- logger used by the VS/WakaTime side
+├─ Logs/                    <- runtime log files (gitignored)
+│  └─ .gitignore
+└─ Data/
+   ├─ .gitkeep              <- keeps Data/ in git even when empty
+   ├─ output/
+   │  ├─ .gitkeep
+   │  └─ heartbeats.ndjson  <- final combined heartbeats file (gitignored)
+   └─ samples/
+      ├─ .gitkeep
+      ├─ device-heartbeats.ndjson  <- example device-side data
+      └─ vs-heartbeats.ndjson      <- example VS-side data
