@@ -1,0 +1,53 @@
+{
+  "name": "fraud-test-vscode-logger",
+  "displayName": "Fraud Test VS Code Logger",
+  "description": "Logs detailed coding heartbeats for FRAUD-TEST comparison with hardware/device logs.",
+  "version": "0.0.1",
+  "publisher": "fraud-test",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Fraud Test Logger",
+      "properties": {
+        "fraudTest.outputPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to write VS Code heartbeats NDJSON. If empty, defaults to <workspace>/../data/output/vscode-heartbeats.ndjson."
+        },
+        "fraudTest.enableLogging": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable Fraud Test heartbeat logging."
+        },
+        "fraudTest.minMillisecondsBetweenHeartbeats": {
+          "type": "number",
+          "default": 2000,
+          "description": "Minimum milliseconds between heartbeats for the same file to avoid excessive spam."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "echo \"No lint step configured\"",
+    "test": "echo \"No tests configured\""
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {}
+}

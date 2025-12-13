@@ -1,90 +1,80 @@
-"""
-Parse device heartbeat logs into a normalized list
-"""
-
 import argparse
 import csv
-from dataclasses import dataclass
-from datetime import datetime
+import os
 from typing import List
 
+CANONICAL_HEADER: List[str] = [
+    "Time",
+    "Project",
+    "Language",
+    "Editor",
+    "File Path",
+    "Line",
+    "Col",
+    "Lines",
+    "Write",
+    "Source",
+    "Branch",
+    "Category",
+    "Machine",
+    "User Agent",
+    "IP",
+]
 
-@dataclass
-class Heartbeat:
-    time: datetime
-    project: str
-    language: str
-    editor: str
-    file_path: str
-    line: int
-    col: int
-    lines: int
-    write: bool
-    source: str
-    branch: str
-    category: str
-    machine: str
-    user_agent: str
-    ip: str
-
-
-def parse_bool(value: str) -> bool:
-    v = (value or "").strip().lower()
-    return v in ("1", "true", "yes", "y")
-
-
-def parse_int(value: str) -> int:
-    try:
-        return int(value)
-    except (ValueError, TypeError):
-        return 0
-
-
-def parse_time(value: str) -> datetime:
-    v = (value or "").strip()
-    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d %H:%M:%S", "%m/%d/%Y %I:%M:%S %p"):
-        try:
-            return datetime.strptime(v, fmt)
-        except ValueError:
-            continue
-    return datetime.fromisoformat(v.replace("Z", "+00:00"))
-
-
-def parse_device_heartbeats(csv_path: str) -> List[Heartbeat]:
-    heartbeats: List[Heartbeat] = []
-
-    with open(csv_path, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            hb = Heartbeat(
-                time=parse_time(row.get("Time", "")),
-                project=row.get("Project", "") or "",
-                language=row.get("Language", "") or "",
-                editor=row.get("Editor", "") or "",
-                file_path=row.get("File Path", "") or "",
-                line=parse_int(row.get("Line")),
-                col=parse_int(row.get("Col")),
-                lines=parse_int(row.get("Lines")),
-                write=parse_bool(row.get("Write")),
-                source=row.get("Source", "") or "",
-                branch=row.get("Branch", "") or "",
-                category=row.get("Category", "") or "",
-                machine=row.get("Machine", "") or "",
-                user_agent=row.get("User Agent", "") or "",
-                ip=row.get("IP", "") or "",
-            )
-            heartbeats.append(hb)
-
-    return heartbeats
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Normalize device heartbeats CSV into canonical format for comparison.\n"
+            "Assumes the device CSV either already has the canonical header or can "
+            "be trivially mapped."
+        )
+    )
+    parser.add_argument(
+        "input",
+        help="Path to device CSV (e.g. data/samples/device-heartbeats.sample.csv)",
+    )
+    parser.add_argument(
+        "output",
+        nargs="?",
+        help="Path to output CSV (default: same dir as input, 'device-heartbeats.normalized.csv')",
+    )
+    return parser.parse_args()
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Parse device heartbeats.")
-    parser.add_argument("input", help="Path to device-heartbeats.log (CSV).")
-    args = parser.parse_args()
+    args = parse_args()
+    input_path = args.input
 
-    heartbeats = parse_device_heartbeats(args.input)
-    print(f"Parsed {len(heartbeats)} device heartbeats from {args.input!r}.")
+    if args.output:
+        output_path = args.output
+    else:
+        base_dir = os.path.dirname(os.path.abspath(input_path))
+        output_path = os.path.join(base_dir, "device-heartbeats.normalized.csv")
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    with open(input_path, "r", encoding="utf-8") as fin:
+        reader = csv.DictReader(fin)
+        input_fields = reader.fieldnames or []
+
+        missing = [f for f in CANONICAL_HEADER if f not in input_fields]
+        if missing:
+            raise ValueError(
+                "Input CSV is missing the following required fields for canonical mapping: "
+                + ", ".join(missing)
+                + "\nIf your device uses different headers, adjust parse_device_heartbeats.py to map them."
+            )
+
+        with open(output_path, "w", encoding="utf-8", newline="") as fout:
+            writer = csv.DictWriter(fout, fieldnames=CANONICAL_HEADER)
+            writer.writeheader()
+
+            for row_in in reader:
+                # Direct passthrough for now,  could transform types if needed
+                row_out = {field: row_in.get(field, "") for field in CANONICAL_HEADER}
+                writer.writerow(row_out)
+
+    print(f"[parse_device_heartbeats] Wrote normalized CSV to {output_path}")
 
 
 if __name__ == "__main__":
